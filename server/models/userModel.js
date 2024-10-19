@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, "An password must be there."],
+        required: [true, "A password must be there."],
     },
 }, { timestamps: true });
 

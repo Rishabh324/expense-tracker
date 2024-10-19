@@ -16,6 +16,7 @@ exports.registerController = async (req, res) => {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(req.body.password, salt);
             req.body.password = hashedPassword;
+            console.log(req.body);
 
             //user creation
             const newUser = await userModel.create(req.body);
@@ -27,6 +28,7 @@ exports.registerController = async (req, res) => {
         }
     }
     catch (err) {
+        console.log(err);
         res.status(400).json({
             status: "Process Terminated",
             message: "Failed at Register API",
