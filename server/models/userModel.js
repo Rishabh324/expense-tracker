@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: [true, "phone is required"],
     },
+    password: {
+        type: String,
+        required: [true, "An password must be there."],
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model('users', userSchema);
