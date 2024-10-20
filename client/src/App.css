@@ -6,13 +6,17 @@
     padding: 0;
     box-sizing: border-box;
     /* font-weight: 500; */
+    /* max-height: 93.5vh; */
     font-family: 'Outfit', sans-serif;
 }
 
 /* .app{
     width: 100vw;
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 } */
+
+.lay{
+    height: 91.5vh;
+}
