@@ -4,7 +4,7 @@ import { useScreen } from "../context/ScreenContext";
 
 const Sidebar = () => {
     const { isMobile, sidebarOpen } = useScreen();
-    // const navigate = useNavigate();
+    
     const logoutHandler = () => {
         localStorage.clear();
         toast.success("Logout Successful.");

@@ -8,8 +8,6 @@ export const userLogin = createAsyncThunk(
     async ({ email, password }, { rejectWithValue }) => {
         try {
             const { data } = await API.post('/auth/login', { email: email, password: password });
-            //store token
-            console.log(data);
             if (data.status == "Success") {
                 localStorage.setItem('token', data.token);
                 window.location.replace('/');

@@ -15,17 +15,16 @@ export const ScreenProvider = ({ children }) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); // Empty dependency array ensures the effect runs only once on mount and cleans up on unmount
+  }, []);
 
   useEffect(() => {
     setSidebarOpen(false);
-  }, [isMobile]); // Reset sidebarOpen when isMobile changes
+  }, [isMobile]);
 
   const toggleSidebar = () => {
-    setSidebarOpen((prev) => !prev); // Use functional update for state toggles
+    setSidebarOpen((prev) => !prev);
   };
 
-  // Ensure initial state of isMobile is set correctly on mount
   useEffect(() => {
     handleResize();
   }, []);

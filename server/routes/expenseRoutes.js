@@ -3,6 +3,7 @@ const router = express.Router();
 
 const expenseController = require('../controllers/expenseController');
 const authMiddleware = require('../middlewares/authMiddleware');
+
 //routes
 router
     .route('/add-expense')

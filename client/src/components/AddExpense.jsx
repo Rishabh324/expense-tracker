@@ -11,13 +11,13 @@ const AddExpense = () => {
 
   const calculateSplit = () => {
     if (splitMethod === 'Equal') {
-      // Equal Split
+      
       const equalAmount = totalAmount / participants.length;
       const newParticipants = participants.map((p) => ({ ...p, amountOwed: equalAmount }));
       setParticipants(newParticipants);
 
     } else if (splitMethod === 'Exact') {
-      // Exact Split (Amounts already entered by user)
+      
       const total = participants.reduce((sum, p) => sum + Number(p.amountOwed), 0);
       if (total !== Number(totalAmount)) {
         toast.error('Exact amounts do not add up to the total amount');
@@ -25,7 +25,7 @@ const AddExpense = () => {
       }
 
     } else if (splitMethod === 'Percentage') {
-      // Percentage Split
+      
       const totalPercentage = participants.reduce((sum, p) => sum + Number(p.amountOwed), 0);
       if (totalPercentage !== 100) {
         toast.error('Percentages do not add up to 100');

@@ -6,6 +6,7 @@ exports.addExpense = async (req,res) => {
     try {
         const { expenseTitle, totalAmount, createdBy, participants } = req.body;
         
+        // validating the user
         const user = await userModel.findOne({ email: createdBy });
         if (!user) {
             return res.status(404).json({
@@ -25,6 +26,7 @@ exports.addExpense = async (req,res) => {
             item.user = participant._id;
         }
 
+        // adding the expense to the database
         const expense = await expenseModel.create({
             expenseTitle,
             totalAmount,
@@ -50,6 +52,8 @@ exports.addExpense = async (req,res) => {
 
 exports.getExpenses = async (req,res) => {
     try{
+
+        //validating the user
         const user = await userModel.findOne({ email: req.body.createdBy });
         if (!user) {
             return res.status(404).json({
@@ -58,6 +62,7 @@ exports.getExpenses = async (req,res) => {
             })
         }
 
+        // fetching the expenses created by the user
         const data = await expenseModel.find({ createdBy: user._id });
 
         res.status(200).json({
@@ -77,8 +82,9 @@ exports.getExpenses = async (req,res) => {
 
 exports.downloadBalanceSheet = async(req,res) => {
     try {
-        // Find all expenses where the user is involved
+        
         const id = req.params.id;
+        // retrieving the transaction where specified  user is involved
         const expenses = await expenseModel.find({})
             .populate('createdBy')
             .populate('participants.user');
@@ -92,20 +98,18 @@ exports.downloadBalanceSheet = async(req,res) => {
             
             if (participant) {
                 if (expense.createdBy._id.toString() === id) {
-                // If the user created the expense, calculate what others owe them
-                expense.participants.forEach((p) => {
-                    if (p.user._id.toString() !== id) {
-                    totalOwedToUser += p.amountOwed;
-                    balanceSheet.push({
-                        expenseTitle: expense.expenseTitle,
-                        owes: p.user.email,
-                        amount: p.amountOwed,
-                        type: 'Owed to User',
-                    });
+                    expense.participants.forEach((p) => {
+                        if (p.user._id.toString() !== id) {
+                        totalOwedToUser += p.amountOwed;
+                        balanceSheet.push({
+                            expenseTitle: expense.expenseTitle,
+                            owes: p.user.email,
+                            amount: p.amountOwed,
+                            type: 'Owed to User',
+                        });
                     }
                 });
                 } else {
-                // If the user did not create the expense, calculate what they owe others
                     totalOwedByUser += participant.amountOwed;
                     balanceSheet.push({
                         expenseTitle: expense.expenseTitle,
@@ -117,13 +121,15 @@ exports.downloadBalanceSheet = async(req,res) => {
             }
             console.log(expense);
         });
+
+        // parsing the data to csv format
     
-        // Convert the balance sheet to CSV
         const fields = ['expenseTitle', 'owes', 'amount', 'type'];
         const json2csvParser = new Parser({ fields });
         const csv = json2csvParser.parse(balanceSheet);
-    
-        // Set headers for file download
+
+        // specifying the type of response and attaching the file to be downloaded
+
         res.header('Content-Type', 'text/csv');
         res.attachment(`balance_sheet_${id}.csv`);
         return res.send(csv);

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 exports.registerController = async (req, res) => {
     try {
+        //check if user already exists
         const existingUser = await userModel.findOne({ email: req.body.email });
         if (existingUser) {
             return res.status(200).json({
@@ -39,6 +40,8 @@ exports.registerController = async (req, res) => {
 
 exports.loginController = async (req, res) => {
     try {
+
+        // check if user exists
         const user = await userModel.findOne({ email: req.body.email });
         if (!user) {
             return res.status(404).json({
@@ -77,6 +80,7 @@ exports.loginController = async (req, res) => {
 
 exports.getCurrentUser = async (req, res) => {
     try {
+        //fetching the user
         const user = await userModel.findOne({ _id: req.body.id });
         res.status(200).json({
             status: "Success",

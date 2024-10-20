@@ -1,6 +1,6 @@
-# Weather Monitoring System
+# Expense Tracker Application
 
-## Github link (https://github.com/Rishabh324/zeotap_weather_monitoring)
+## Github link (https://github.com/Rishabh324/expense-tracker)
 
 ## Description
 
@@ -16,6 +16,7 @@ Key features include:
 2. Expense Tracking: Users can add, manage, and retrieve their expenses.
 3. Expense Splitting: Advanced methods for splitting expenses among participants.
 4. Balance Sheet Download: Users can generate and download a CSV balance sheet summarizing how much each participant owes or is owed.
+5. The project also uses user authentication and authorization using jwt tokens and redux state management.
 
 The application is built using a Node.js backend with MongoDB for data storage and React for the frontend, making it responsive and capable of handling real-time updates to expenses and balances.
 
@@ -23,9 +24,14 @@ The application is built using a Node.js backend with MongoDB for data storage a
 
 The project is hosted in public registry on docker. You can pull the image by searching for two images on docker hub. The image names are:
 
-1. rishabhsinha324/weather-monitoring-system-weather-frontend
+1. rishabhsinha324/expense-tracker-expense-frontend
+2. rishabhsinha324/expense-tracker-expense-backend
 
-After pulling the image, run the docker run command and perform the port mapping by adding 3000:3000 to the command.
+After pulling the image, run the docker run command and perform the port mapping by adding 5173:5173 for frontend and 5000:5000 for backend to the command.
+
+```
+  docker run -p <HostPort:containerport> -it imagename:tag 
+```
 
 ## How to run the application
 
@@ -33,16 +39,17 @@ After pulling the image, run the docker run command and perform the port mapping
 
 - Install the docker desktop application from https://www.docker.com/products/docker-desktop
 
-- Create a .env.local file with the following content:
+- Create a .env file with the following content:
 
 ```
-  NEXT_PUBLIC_OPENWEATHERMAP_API_KEY=YOUR_OPENWEATHERMAP_API_KEY
-  MONGODB_URI=mongodb://mongo:27017
+  VITE_REACT_APP_BASEURL = http://localhost:5000/api/v1
 ```
-
-- Get the OpenWeatherMap API key from https://openweathermap.org/. Store it in the .env.local file.
 
 - Run the application using docker-compose:
+
+```bash
+docker-compose build
+```
 
 ```bash
 docker-compose up
@@ -50,12 +57,10 @@ docker-compose up
 
 1. Without docker:
 
-- Create a .env.local file with the following content:
+- Create a .env file with the following content:
 
 ```
-  NEXT_PUBLIC_OPENWEATHERMAP_API_KEY=YOUR_OPENWEATHERMAP_API_KEY
-  MONGODB_URI=mongodb://localhost:27017
+  VITE_REACT_APP_BASEURL = http://localhost:5000/api/v1
 ```
 
-- Get the OpenWeatherMap API key from https://openweathermap.org/. Store it in the .env.local file.
 - Run the application using `npm run dev`
